@@ -42,6 +42,7 @@ CFLAGS += -I ./core/indicator/timer
 CFLAGS += -I ./core/ds18b20/
 CFLAGS += -I ./core/ds18b20/gpio
 
+
 OBJS = $(SOURCES:.c=.o)
 
 all: $(PROJECT).elf size

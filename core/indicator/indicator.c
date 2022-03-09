@@ -57,9 +57,9 @@ void indicator_init()
 {
     indicator_gpio_init();                /*gpio initialization*/
     indicator_timer_init(3599, 100);      /*5 ms overflow*/
-    TIMER_Enable();                     /*timer start*/
+    TIMER_Enable();                       /*timer start*/
     digits[0] = digits[1] = \
-    digits[2] = digits[3] = 0;            /*clear digits*/
+    digits[2] = digits[3] = chars[11];    /*clear digits*/
 }
 
 

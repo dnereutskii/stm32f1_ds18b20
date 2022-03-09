@@ -3,19 +3,23 @@
 #include "ds18b20.h"
 
 
-#define SYSCLOCK 72000000U
-
-
-uint32_t systick_cnt = 0U;
+#define SYSCLOCK    72000000U   /*System clock*/
+#define ONE_MS      1000U       /*Delay milliseconds const*/
+#define ONE_US      1000000U    /*Delay microseconds const*/
 
 
 void delay(uint32_t tck);
-void delay_ms(uint32_t ms);
+__STATIC_INLINE void delay_ms(uint32_t ms);
+__STATIC_INLINE void delay_us(uint32_t us);
+void systick_init(uint32_t times);
+void delay_init();
 void led_init();
 void swd_init();
 void clock_deinit();
 void clock_init();
-void systick_init();
+
+
+volatile uint32_t systick_cnt = 0U;
 
 
 void SysTick_Handler()
@@ -24,49 +28,29 @@ void SysTick_Handler()
 }
 
 
-
-
-
 int main()
 {
     clock_init();
     swd_init();
     led_init();
-    systick_init();
+    systick_init(ONE_MS);
     indicator_init();
 
-    for(uint16_t cnt = 0U; cnt < 10000; cnt++)
-    {
-        indicator_print_number(cnt);
-        delay_ms(100);
-    }
+    // for(uint16_t cnt = 0U; cnt < 10000; cnt++)
+    // {
+    //     indicator_print_number(cnt);
+    //     delay_ms(100);
+    // }
     
     while(1)
     {
         GPIOC->BSRR = GPIO_BSRR_BR13;//on led
-        delay_ms(1000);
+        delay_ms(100);
         GPIOC->BSRR = GPIO_BSRR_BS13;//off led
-        delay_ms(1000);
+        delay_ms(100);
     };
 
     return 0;
-}
-
-
-void delay(uint32_t tck)
-{
-    while(tck)
-    {
-        tck--;
-    }  
-}
-
-
-void delay_ms(uint32_t ms)
-{
-    SysTick->VAL =SysTick_VAL_CURRENT_Msk&(SYSCLOCK / 1000 - 1);    /*init counter*/
-    systick_cnt = ms;   /**/
-    while(systick_cnt){} /*wait for systick_cnt is inspired*/
 }
 
 
@@ -146,11 +130,11 @@ void clock_init()
 
 
 /*
- * There is an interrupt every 1ms
+ * There is an interrupt every SYSCLOCK / times
  */
-void systick_init()
+void systick_init(uint32_t times)
 {
-    SysTick->LOAD = SysTick_LOAD_RELOAD_Msk&(SYSCLOCK / 1000 - 1);
+    SysTick->LOAD = SysTick_LOAD_RELOAD_Msk&(SYSCLOCK / times - 1);
     SysTick->VAL = SysTick_VAL_CURRENT_Msk;       /*reset counter*/
     SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk|\
                      SysTick_CTRL_TICKINT_Msk|\
@@ -158,3 +142,26 @@ void systick_init()
 }
 
 
+void delay(uint32_t tck)
+{
+    while(tck)
+    {
+        tck--;
+    }  
+}
+
+
+__STATIC_INLINE void delay_ms(uint32_t ms)
+{
+    SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_MS - 1);    /*init counter*/
+    systick_cnt = ms;   /**/
+    while(systick_cnt){} /*wait for systick_cnt is inspired*/
+}
+
+
+__STATIC_INLINE void delay_us(uint32_t us)
+{
+    SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_US - 1);    /*init counter*/
+    systick_cnt = us;   /**/
+    while(systick_cnt){} /*wait for systick_cnt is inspired*/
+}
