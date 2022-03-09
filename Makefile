@@ -7,6 +7,9 @@ SOURCES += cmsis/src/system_stm32f1xx.c
 SOURCES += core/indicator/indicator.c
 SOURCES += core/indicator/gpio/indicator_gpio.c
 SOURCES += core/indicator/timer/indicator_timer.c
+SOURCES += core/ds18b20/ds18b20.c
+SOURCES += core/ds18b20/gpio/ds18b20_gpio.c
+
 
 # add startup file to build
 SOURCES += ./startup/startup_stm32f103xb.s
@@ -36,6 +39,8 @@ CFLAGS += -I ./cmsis/inc/
 CFLAGS += -I ./core/indicator/
 CFLAGS += -I ./core/indicator/gpio
 CFLAGS += -I ./core/indicator/timer
+CFLAGS += -I ./core/ds18b20/
+CFLAGS += -I ./core/ds18b20/gpio
 
 OBJS = $(SOURCES:.c=.o)
 
