@@ -4,11 +4,14 @@
 # list of source files
 SOURCES  = core/main.c
 SOURCES += cmsis/src/system_stm32f1xx.c
+# 7-seg indicator module
 SOURCES += core/indicator/indicator.c
 SOURCES += core/indicator/gpio/indicator_gpio.c
 SOURCES += core/indicator/timer/indicator_timer.c
+# ds18b20 module
 SOURCES += core/ds18b20/ds18b20.c
 SOURCES += core/ds18b20/gpio/ds18b20_gpio.c
+SOURCES += core/ds18b20/timer/ds18b20_timer.c
 
 
 # add startup file to build
@@ -36,11 +39,14 @@ CFLAGS += -DSTM32F10X_MD
 CFLAGS += -Wl,--gc-sections
 CFLAGS += -I.
 CFLAGS += -I ./cmsis/inc/
+# 7-seg headers
 CFLAGS += -I ./core/indicator/
 CFLAGS += -I ./core/indicator/gpio
 CFLAGS += -I ./core/indicator/timer
+# ds18b20 headers
 CFLAGS += -I ./core/ds18b20/
 CFLAGS += -I ./core/ds18b20/gpio
+CFLAGS += -I ./core/ds18b20/timer
 
 
 OBJS = $(SOURCES:.c=.o)
