@@ -1,9 +1,6 @@
-#include <stm32f1xx.h>
-#include "indicator.h"
-#include "ds18b20.h"
+#include <main.h>
 
 
-#define SYSCLOCK    72000000U   /*System clock*/
 #define ONE_MS      1000U       /*Delay milliseconds const*/
 #define ONE_US      1000000U    /*Delay microseconds const*/
 
