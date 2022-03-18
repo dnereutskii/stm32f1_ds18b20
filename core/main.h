@@ -4,6 +4,7 @@
 #include <stm32f1xx.h>
 #include "indicator.h"
 #include "ds18b20.h"
+#include "delay.h"
 
 #define SYSCLOCK    72000000U   /*System clock*/
 

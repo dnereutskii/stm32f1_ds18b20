@@ -39,6 +39,10 @@ CFLAGS += -DSTM32F10X_MD
 CFLAGS += -Wl,--gc-sections
 CFLAGS += -I.
 CFLAGS += -I ./cmsis/inc/
+# main header
+CFLAGS += -I ./core
+# delay header
+CFLAGS += -I ./core/delay/
 # 7-seg headers
 CFLAGS += -I ./core/indicator/
 CFLAGS += -I ./core/indicator/gpio
