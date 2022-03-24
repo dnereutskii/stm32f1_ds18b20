@@ -26,8 +26,8 @@ OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
 
 # path to st-flash (or should be specified in PATH)
-# ST_FLASH ?= st-flash
-ST_FLASH ?= ST-LINK_CLI
+ST_FLASH ?= st-flash
+# ST_FLASH ?= ST-LINK_CLI
 ST_INFO = st-info
 
 # specify compiler flags
@@ -59,7 +59,7 @@ all: $(PROJECT).elf size
 
 # compile
 $(PROJECT).elf: $(SOURCES)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ -S test.s
 	$(OBJCOPY) -O ihex $(PROJECT).elf $(PROJECT).hex
 	$(OBJCOPY) -O binary $(PROJECT).elf $(PROJECT).bin
 
@@ -69,8 +69,8 @@ clean:
 
 # flash
 burn:
-	$(ST_FLASH) -c SWD -P $(PROJECT).hex 0x8000000 -Rst
-# $(ST_FLASH) write $(PROJECT).bin 0x8000000
+	$(ST_FLASH) write $(PROJECT).bin 0x8000000
+# $(ST_FLASH) -c SWD -P $(PROJECT).hex 0x8000000 -Rst
 
 # size info
 size:

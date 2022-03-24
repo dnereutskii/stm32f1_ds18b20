@@ -12,5 +12,5 @@
 - [Си библиотека для работы с 1-Wire устройствами](https://chipenable.ru/index.php/programming-avr/77-si-biblioteka-dlya-raboty-s-1-wire-ustroystvami.html)
 - [Счётчик DWT](https://habr.com/ru/post/476582/)
 - [Функция задержки STM32](https://hubstub.ru/stm32/101-funkciya-zaderzhki-stm32.html)
-- [Время выполнения кода STM32](https://hubstub.ru/stm32/82-vremya-vipolneniya-koda-stm32.- l)
+- [Время выполнения кода STM32](https://hubstub.ru/stm32/82-vremya-vipolneniya-koda-stm32.html)
 - 

@@ -1,13 +1,16 @@
 #include <main.h>
-
+#include <stm32f1xx.h>
+#include "indicator.h"
+#include "ds18b20.h"
+#include "delay.h"
 
 #define ONE_MS      1000U       /*Delay milliseconds const*/
 #define ONE_US      1000000U    /*Delay microseconds const*/
 
 
 void delay(uint32_t tck);
-__STATIC_INLINE void delay_ms(uint32_t ms);
-__STATIC_INLINE void delay_us(uint32_t us);
+// __STATIC_INLINE void delay_ms(uint32_t ms);
+// __STATIC_INLINE void delay_us(uint32_t us);
 void systick_init(uint32_t times);
 void delay_init();
 void led_init();
@@ -30,21 +33,22 @@ int main()
     clock_init();
     swd_init();
     led_init();
-    systick_init(ONE_MS);
+    // systick_init(ONE_MS);
+    dwt_init();
     indicator_init();
 
-    // for(uint16_t cnt = 0U; cnt < 10000; cnt++)
-    // {
-    //     indicator_print_number(cnt);
-    //     delay_ms(100);
-    // }
+    for(uint16_t cnt = 0U; cnt < 10000; cnt++)
+    {
+        indicator_print_number(cnt);
+        delay_ms(100);
+    }
     
     while(1)
     {
         GPIOC->BSRR = GPIO_BSRR_BR13;//on led
-        delay_ms(100);
+        delay_ms(1000);
         GPIOC->BSRR = GPIO_BSRR_BS13;//off led
-        delay_ms(100);
+        delay_ms(1000);
     };
 
     return 0;
@@ -148,17 +152,17 @@ void delay(uint32_t tck)
 }
 
 
-__STATIC_INLINE void delay_ms(uint32_t ms)
-{
-    SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_MS - 1);    /*init counter*/
-    systick_cnt = ms;   /**/
-    while(systick_cnt){} /*wait for systick_cnt is inspired*/
-}
+// __STATIC_INLINE void delay_ms(uint32_t ms)
+// {
+//     SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_MS - 1);    /*init counter*/
+//     systick_cnt = ms;   /**/
+//     while(systick_cnt){} /*wait for systick_cnt is inspired*/
+// }
 
 
-__STATIC_INLINE void delay_us(uint32_t us)
-{
-    SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_US - 1);    /*init counter*/
-    systick_cnt = us;   /**/
-    while(systick_cnt){} /*wait for systick_cnt is inspired*/
-}
+// __STATIC_INLINE void delay_us(uint32_t us)
+// {
+//     SysTick->VAL = SysTick_VAL_CURRENT_Msk&(SYSCLOCK / ONE_US - 1);    /*init counter*/
+//     systick_cnt = us;   /**/
+//     while(systick_cnt){} /*wait for systick_cnt is inspired*/
+// }
